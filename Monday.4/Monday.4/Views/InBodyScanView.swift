@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import PhotosUI
+import UIKit
 
 struct InBodyScanView: View {
     @Environment(\.modelContext) private var modelContext
