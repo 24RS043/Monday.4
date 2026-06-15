@@ -80,6 +80,7 @@ struct InBodyScanView: View {
                     NavigationLink("グラフ") {
                         InBodyChartView()
                     }
+                    .hideKeyboardOnTap()
                 }
             }
             .onChange(of: selectedPhoto) { _, newItem in

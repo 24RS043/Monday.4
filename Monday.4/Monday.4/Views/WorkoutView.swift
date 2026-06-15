@@ -40,6 +40,7 @@ struct WorkoutView: View {
             }
             .navigationTitle("筋トレ記録")
         }
+        .hideKeyboardOnTap()
     }
 
     private func addLog() {
