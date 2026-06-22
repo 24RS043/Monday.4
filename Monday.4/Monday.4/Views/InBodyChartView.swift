@@ -73,6 +73,12 @@ struct InBodyChartView: View {
                         Text("最新: \(value(for: latest), specifier: "%.1f")\(selectedMetric.unit)")
                             .font(.title2)
                             .padding(.top, 8)
+
+                        // 過去 → 最新の増減を表示（記録が2件以上あるとき）
+                        if records.count >= 2 {
+                            changeSummary(latest: latest)
+                                .padding(.top, 4)
+                        }
                     }
                 }
 
@@ -80,6 +86,54 @@ struct InBodyChartView: View {
             }
             .navigationTitle("体組成グラフ")
         }
+    }
+
+    // MARK: - 増減サマリー
+
+    /// 直近の1つ前の記録（前回比の計算に使う）
+    private var previousRecord: InBodyRecord? {
+        guard records.count >= 2 else { return nil }
+        return records[records.count - 2]
+    }
+
+    private func changeSummary(latest: InBodyRecord) -> some View {
+        let current = value(for: latest)
+        let first = records.first.map { value(for: $0) }
+        let previous = previousRecord.map { value(for: $0) }
+
+        return HStack(spacing: 16) {
+            deltaLabel(title: "前回比", from: previous, to: current)
+            deltaLabel(title: "初回比", from: first, to: current, showPercent: true)
+        }
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+    }
+
+    private func deltaLabel(
+        title: String,
+        from reference: Double?,
+        to current: Double,
+        showPercent: Bool = false
+    ) -> some View {
+        Text(deltaText(title: title, from: reference, to: current, showPercent: showPercent))
+    }
+
+    /// 「前回比 ▼2.1kg (3.3%)」のような増減テキストを組み立てる。
+    /// 矢印で増減の方向、数値で変化量（絶対値）を示す。基準が無ければ「—」。
+    private func deltaText(
+        title: String,
+        from reference: Double?,
+        to current: Double,
+        showPercent: Bool
+    ) -> String {
+        guard let ref = reference else { return "\(title) —" }
+        let delta = current - ref
+        let arrow = delta > 0.05 ? "▲" : (delta < -0.05 ? "▼" : "→")
+        var text = "\(title) \(arrow)" + String(format: "%.1f", abs(delta)) + selectedMetric.unit
+        if showPercent, ref != 0 {
+            text += String(format: " (%.1f%%)", abs(delta / ref * 100))
+        }
+        return text
     }
 
     private func value(for record: InBodyRecord) -> Double {
