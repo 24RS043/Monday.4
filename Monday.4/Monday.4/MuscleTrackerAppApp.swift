@@ -4,7 +4,7 @@ import SwiftData
 @main
 struct MuscleTrackerAppApp: App {
     var sharedModelContainer: ModelContainer = {
-        let schema = Schema([WorkoutLog.self, InBodyRecord.self, GymEquipment.self])
+        let schema = Schema([WorkoutLog.self, InBodyRecord.self, GymEquipment.self ,GymVisit.self])
         let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         do {
             return try ModelContainer(for: schema, configurations: [config])
