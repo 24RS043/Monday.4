@@ -24,6 +24,7 @@ struct RootTabView: View {
                 .tabItem {
                     Label("ジム", systemImage: "map")
                 }
+            
         }
     }
 }
