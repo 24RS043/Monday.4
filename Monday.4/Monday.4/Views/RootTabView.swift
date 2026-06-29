@@ -19,11 +19,19 @@ struct RootTabView: View {
                     Label("InBody", systemImage: "camera.viewfinder")
                 }
 
-
             GymMapView()
                 .tabItem {
                     Label("ジム", systemImage: "map")
                 }
+            
+            SettingsView()
+                .tabItem {
+                    Label("設定", systemImage: "gearshape.fill")
+                }
         }
     }
+}
+
+#Preview {
+    RootTabView()
 }
