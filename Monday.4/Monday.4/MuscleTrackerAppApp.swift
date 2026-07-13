@@ -11,7 +11,8 @@ struct MuscleTrackerAppApp: App {
             InBodyRecord.self,
             GymEquipment.self,
             Goal.self,
-            UserProfile.self
+            UserProfile.self,
+            WorkoutDay.self
         ])
 
         let config = ModelConfiguration(

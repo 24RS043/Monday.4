@@ -153,6 +153,9 @@ struct WorkoutView: View {
                 sets: sets
             )
         )
+        modelContext.insert(
+            WorkoutDay(date: Date())
+        )
  
         weightText = ""
         repsText = ""
