@@ -3,6 +3,7 @@ import SwiftData
 
 @main
 struct MuscleTrackerAppApp: App {
+    @State private var showSplash = true
 
     var sharedModelContainer: ModelContainer = {
 
@@ -33,7 +34,21 @@ struct MuscleTrackerAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootTabView()
+            ZStack {
+                RootTabView()
+
+                if showSplash {
+                    SplashView()
+                        .transition(.opacity)
+                        .zIndex(10)
+                }
+            }
+            .animation(.easeOut(duration: 0.35), value: showSplash)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                    showSplash = false
+                }
+            }
         }
         .modelContainer(sharedModelContainer)
     }
